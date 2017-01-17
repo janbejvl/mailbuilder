@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "Drag and drop mail builder app",
   "main": "index.js",
-  "dependencies": {},
-  "devDependencies": {},
   "scripts": {
     "start": "node server.js",
     "build": "./node_modules/.bin/cross-env BABEL_ENV=production ./node_modules/.bin/webpack --config webpack.config.production.js",
