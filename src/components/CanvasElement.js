@@ -3,7 +3,7 @@ import { DragSource } from 'react-dnd'
 import { ItemTypes } from './Constants'
 
 
-const elementSource = {
+const canvasElementSource = {
   beginDrag(props) {
 		return {
 			name: props.name
@@ -11,7 +11,7 @@ const elementSource = {
   }
 }
 
-@DragSource(ItemTypes.ELEMENT, elementSource, (connect, monitor) => ({
+@DragSource(ItemTypes.CANVAS_ELEMENT, canvasElementSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
 }))
@@ -27,8 +27,7 @@ export default class Element extends Component {
     isDragging: PropTypes.bool.isRequired,
 
     name: PropTypes.string.isRequired,
-    elementType: PropTypes.string.isRequired,
-    // onClick: PropTypes.func.isRequired
+    elementType: PropTypes.string.isRequired
   };
 
 	render() {

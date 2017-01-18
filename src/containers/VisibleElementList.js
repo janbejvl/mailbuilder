@@ -19,17 +19,17 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onElementClick: (element) => {
-      dispatch(addElementToCanvas(element))
-    }
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onElementClick: (element) => {
+//       dispatch(addElementToCanvas(element))
+//     }
+//   }
+// }
 
 const VisibleElementList = connect(
   mapStateToProps,
-  mapDispatchToProps
+  // mapDispatchToProps
 )(ElementList)
 
 export default VisibleElementList

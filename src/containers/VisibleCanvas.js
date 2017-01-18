@@ -7,17 +7,16 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onElementClick: (element) => {
-      dispatch(() => {})
-    }
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onElementClick: (element) => {
+//       dispatch(() => {})
+//     }
+//   }
+// }
 
 const VisibleCanvas = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Canvas)
 
 export default VisibleCanvas

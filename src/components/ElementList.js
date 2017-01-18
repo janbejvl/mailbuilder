@@ -24,7 +24,7 @@ ElementList.propTypes = {
     contentType: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired).isRequired,
-  onElementClick: PropTypes.func.isRequired
+  // onElementClick: PropTypes.func.isRequired
 }
 
 export default ElementList
