@@ -1,20 +1,47 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes, Component } from 'react';
+import { DragSource } from 'react-dnd';
+import { ItemTypes } from './Constants'
 
-const Element = ({ onClick, elementType, name }) => (
 
-	
-
-  <div onClick={onClick} style={{borderStyle: 'solid',
-		borderWidth: 4,
-		borderColor: 'red'}}>
-    {name}
-  </div>
-)
-
-Element.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  elementType: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+const elementSource = {
+  beginDrag(props) {
+		return {
+			name: props.name
+		};
+  }
 }
 
-export default Element
+@DragSource(ItemTypes.ELEMENT, elementSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+}))
+export default class Element extends Component {
+
+	constructor(props) {
+		super(props)
+	}
+
+	static propTypes = {
+    // Injected by React DnD:
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+
+    name: PropTypes.string.isRequired,
+    elementType: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
+  };
+
+	render() {
+		const { isDragging, connectDragSource } = this.props;
+		const { name, elementType, onClick } = this.props;
+
+		return connectDragSource(
+			<div onClick={onClick} style={{width: 200, height: 50, display: 'inline-block', borderStyle: 'solid',
+				borderWidth: 4,
+				borderColor: 'red'}}>
+		    {name}
+		  </div>
+		);
+	}
+
+}
