@@ -5,9 +5,14 @@ import { ItemTypes } from './Constants'
 
 const canvasElementSource = {
   beginDrag(props) {
-		return {
-			name: props.name
-		}
+	return {
+		id: props.id,
+		elementType: props.elementType,
+		contentType: props.contentType,
+		name: props.name,
+		styles: props.styles,
+		accepts: props.accepts
+	}
   }
 }
 
@@ -26,18 +31,20 @@ export default class Element extends Component {
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
 
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    elementType: PropTypes.string.isRequired
+    elementType: PropTypes.string.isRequired,
+    contentType: PropTypes.string.isRequired,
+    styles: PropTypes.object.isRequired,
+    accepts: PropTypes.array.isRequired
   };
 
 	render() {
 		const { isDragging, connectDragSource } = this.props
-		const { name, elementType, onClick } = this.props
+		const { name, elementType, contentType, styles, accepts, onClick } = this.props
 
 		return connectDragSource(
-			<div onClick={onClick} style={{width: 200, height: 50, display: 'inline-block', borderStyle: 'solid',
-				borderWidth: 4,
-				borderColor: 'red'}}>
+		  <div style={styles}>
 		    {name}
 		  </div>
 		)

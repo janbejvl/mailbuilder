@@ -6,7 +6,7 @@ import { ItemTypes } from './Constants'
 import CanvasElement from './CanvasElement'
 import { addElementToCanvas } from './../actions'
 
-const styles = {borderStyle: 'solid', borderWidth: 4, borderColor: '#000000', height: 800}
+const styles = { borderStyle: 'solid', borderWidth: 4, borderColor: '#000000', width: 600, height: 800 }
 
 const canvasTarget = {
     drop(props, monitor) {
@@ -16,7 +16,6 @@ const canvasTarget = {
         const isOverCurrent = monitor.isOver({ shallow: true });
         // console.log('add this item to Canvas', item);
         if(isOverCurrent) {
-            console.log('add this item to Canvas on drop', item);
             props.dispatch(addElementToCanvas(item));            
         }
     }
@@ -42,6 +41,8 @@ export default class Canvas extends Component {
       elementType: PropTypes.string.isRequired,
       contentType: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
+      styles: PropTypes.object.isRequired,
+      accepts: PropTypes.array.isRequired
     }).isRequired).isRequired,
     // onElementClick: PropTypes.func.isRequired
   }

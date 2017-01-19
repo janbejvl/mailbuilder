@@ -2,11 +2,17 @@ import React, { PropTypes, Component } from 'react'
 import { DragSource } from 'react-dnd'
 import { ItemTypes } from './Constants'
 
+const styles = { width: 200, height: 50, display: 'inline-block', borderStyle: 'solid', borderWidth: 4, borderColor: 'red' }
 
 const elementSource = {
   beginDrag(props) {
 		return {
-			name: props.name
+			id: props.id,
+			elementType: props.elementType,
+			contentType: props.contentType,
+			name: props.name,
+			styles: props.styles,
+			accepts: props.accepts
 		}
   }
 }
@@ -36,9 +42,7 @@ export default class Element extends Component {
 		const { name, elementType, onClick } = this.props
 
 		return connectDragSource(
-			<div onClick={onClick} style={{width: 200, height: 50, display: 'inline-block', borderStyle: 'solid',
-				borderWidth: 4,
-				borderColor: 'red'}}>
+			<div onClick={onClick} style={styles}>
 		    {name}
 		  </div>
 		)

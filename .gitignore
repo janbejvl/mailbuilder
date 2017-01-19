@@ -3,3 +3,4 @@ npm-debug.log
 node_modules
 *.iml
 dist
+src/TODO LIST.txt
