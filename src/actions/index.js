@@ -1,4 +1,5 @@
-export const ADD_ELEMENT_TO_CANVAS = 'ADD_ELEMENT_TO_CANVAS'
+export const ADD_COLUMN = 'ADD_COLUMN'
+export const ADD_CONTENT = 'ADD_CONTENT'
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
 
 /*
@@ -11,13 +12,28 @@ export const VisibilityFilters = {
   SHOW_CONTENT: 'SHOW_CONTENT'
 }
 
+let nextElementId = 0
 /**
  * @param {[Object]} whole element being added to canvas
  * @return { [Object] } returns action object that represents action being dispatched and element object
  */
 export function addElementToCanvas(element) {
-	console.log('ADD_ELEMENT_TO_CANVAS', element)
-  	return { type: ADD_ELEMENT_TO_CANVAS, element }
+	console.log('element', element)
+  	return { 
+  		type: ADD_COLUMN, 
+  		id: ++nextElementId,
+  		name: element.name,
+  		elementType: element.elementType,
+  		contentType: element.contentType,
+  		styles: element.styles,
+  		accepts: element.accepts,
+  		appCtx: 'CANVAS'
+  	}
+}
+
+export function addContentToColumn(sourceEl, targetEl) {
+	sourceEl.id = ++nextElementId
+  	return { type: ADD_CONTENT, sourceEl, targetEl }
 }
 
 /**

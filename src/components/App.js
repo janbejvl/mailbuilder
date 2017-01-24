@@ -6,11 +6,15 @@ import { DragDropContext } from 'react-dnd';
 
 import VisibleElementList from './../containers/VisibleElementList';
 import VisibleCanvas from './../containers/VisibleCanvas';
+import { ItemTypes } from './Constants'
+import { ElementTypes } from './Constants'
 
 
 class App extends Component {  
 
   render() {
+    const accepts = [ ElementTypes.ONE_COLUMN_CONTAINER ]
+
     return (
       <div className="row">
         <h1>Hello</h1>
@@ -18,7 +22,7 @@ class App extends Component {
           <VisibleElementList />
         </div>
         <div className="col-sm-8">
-          <VisibleCanvas />
+          <VisibleCanvas accepts={accepts} />
         </div>
       </div>
     );

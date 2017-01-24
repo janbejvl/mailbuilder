@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
 import Element from './Element'
+import OneColumnContainer from './OneColumnContainer'
+import Text from './Text'
 
 const styles = {borderStyle: 'solid', borderWidth: 4, borderColor: '#d5d5d5', height: 800}
 
@@ -7,13 +9,19 @@ const ElementList = ({ elements, onElementClick }) => (
 	
 
   <div style={styles}>
-    {elements.map(element =>
-      <Element
-        key={element.id}
-        {...element}
-        onClick={() => onElementClick(element)}
-      />
-    )}
+    {elements.map(element => {
+
+      switch (element.elementType) {
+        case 'OneColumnContainer':
+          return (<OneColumnContainer key={element.id} {...element} appCtx="LIST" onClick={() => onElementClick(element)}
+          />) 
+          case 'Text':
+          return (<Text key={element.id} {...element} onClick={() => onElementClick(element)}
+          />)
+        default:
+      }
+      
+    })}
   </div>
 )
 
