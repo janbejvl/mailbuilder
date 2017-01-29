@@ -4,6 +4,7 @@ import OneColumnContainer from './OneColumnContainer'
 import Text from './Text'
 
 const styles = {borderStyle: 'solid', borderWidth: 4, borderColor: '#d5d5d5', height: 800}
+const appCtx = "LIST"
 
 const ElementList = ({ elements, onElementClick }) => (
 	
@@ -13,10 +14,10 @@ const ElementList = ({ elements, onElementClick }) => (
 
       switch (element.elementType) {
         case 'OneColumnContainer':
-          return (<OneColumnContainer key={element.id} {...element} appCtx="LIST" onClick={() => onElementClick(element)}
+          return (<OneColumnContainer key={element.id} {...element} appCtx={appCtx} onClick={() => onElementClick(element)}
           />) 
           case 'Text':
-          return (<Text key={element.id} {...element} onClick={() => onElementClick(element)}
+          return (<Text key={element.id} {...element} appCtx={appCtx} onClick={() => onElementClick(element)}
           />)
         default:
       }

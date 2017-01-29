@@ -10,19 +10,19 @@ import { addContentToColumn } from './../actions'
 
 import Text from './Text'
 
-const defaultStyles = { width: 200, height: 50, display: 'inline-block', borderStyle: 'solid', borderWidth: 4, borderColor: 'red' }
 
 const oneColumnContainerSource = {
   beginDrag(props) {
-	return {
-		id: props.id,
-		elementType: props.elementType,
-		contentType: props.contentType,
-		name: props.name,
-		styles: props.styles,
-		accepts: props.accepts,
-		appCtx: props.appCtx,
-	}
+		return {
+			id: props.id,
+			elementType: props.elementType,
+			contentType: props.contentType,
+			name: props.name,
+			value: props.value,
+			styles: props.styles,
+			accepts: props.accepts,
+			appCtx: props.appCtx,
+		}
   }
 }
 
@@ -32,10 +32,8 @@ const oneColumnContainerTarget = {
 		const item = monitor.getItem();
 		const isOver = monitor.isOver();
 		const isOverCurrent = monitor.isOver({ shallow: true });
-
-		if(isOverCurrent) {
-			console.log('component receiving', component.props)
-			console.log('item adding', item)
+		console.log('item dropping', item)
+		if(isOverCurrent && item.appCtx === 'LIST') {
 			props.dispatch(addContentToColumn(item, component.props));
 		}
 	}
@@ -71,28 +69,67 @@ export default class OneColumnContainer extends Component {
 	};
 
 	render() {
-		const { isDragging, connectDragSource, connectDropTarget } = this.props
+		const { isDragging, connectDragSource, connectDropTarget, isOver, isOverCurrent ,canDrop } = this.props
 		const { name, elementType, appCtx, onClick } = this.props
 		const { childElements, accepts } = this.props
+
+		const defaultStyles = {
+			width: 200,
+			height: 50,
+			display: 'inline-block',
+			borderStyle: 'solid',
+			borderWidth: 4,
+			borderColor: 'red',
+			cursor: 'move',
+			opacity: isDragging ? 0 : 1
+		}
 		const styles = (appCtx === 'CANVAS') ? this.props.styles : defaultStyles
 
+		let backgroundColor = isOver && isOverCurrent ? 'aliceblue' : 'white'
+
+		let innerContainerStyles = {
+			flex: (appCtx === 'CANVAS') ? 1 : 0,
+			lineHeight: (appCtx === 'CANVAS') ? '184px' : 'inherit',
+			minHeight: (appCtx === 'CANVAS') ? 184 : 0,
+			borderStyle: (appCtx === 'CANVAS') ? 'dashed' : 'solid',
+			borderWidth: (appCtx === 'CANVAS') ? 2 : 0,
+			color: (appCtx === 'CANVAS') ? 'lightgray' : 'black',
+			textAlign: 'center',
+			verticalAlign: (appCtx !== 'CANVAS') ? 'baseline' : 'middle'
+		}
+
+		let borderColor = (appCtx === 'CANVAS' && isOver && isOverCurrent) ? 'deepskyblue' : 'gainsboro'
+
+		let content
 		let elements = []
-		if (childElements) {
-			elements = childElements.map(childElement => {
-				switch (childElement.elementType) {
-					case 'Text':
-						return (<Text key={childElement.id} {...childElement} />)
-					default:
-				}
-				
-			})
+
+		if (appCtx === 'CANVAS') {
+
+			if (childElements.length > 0) {
+				elements = childElements.map(childElement => {
+					switch (childElement.elementType) {
+						case 'Text':
+							return (<Text key={childElement.id} {...childElement} />)
+						default:
+					}
+				})
+
+				content = elements
+			}
+			else {
+				content = <div style={{ textAlign: 'center', fontSize: 24 }}>Drop here</div>
+			}
+		}
+		else {
+			content = name
 		}
 		
 
 		return connectDragSource(connectDropTarget(
 			<div onClick={onClick} style={styles}>
-		    {name}{' '}
-		    {elements}
+				<div style={{...innerContainerStyles, borderColor, backgroundColor}}>
+					{content}
+				</div>
 		  </div>
 		))
 	}

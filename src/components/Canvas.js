@@ -9,7 +9,6 @@ import { addElementToCanvas } from './../actions'
 import OneColumnContainer from './OneColumnContainer'
 import Text from './Text'
 
-const styles = { borderStyle: 'solid', borderWidth: 4, borderColor: '#000000', width: 600, height: 800 }
 
 const canvasTarget = {
 	drop(props, monitor) {
@@ -18,7 +17,7 @@ const canvasTarget = {
 		const isOver = monitor.isOver();
 		const isOverCurrent = monitor.isOver({ shallow: true });
 
-		if(isOverCurrent) {
+		if(isOverCurrent && item.appCtx === 'LIST') {
 			props.dispatch(addElementToCanvas(item));
 		}
 	}
@@ -54,9 +53,19 @@ export default class Canvas extends Component {
 		const { canDrop, isOver, isOverCurrent, connectDropTarget } = this.props
 		const { canvasElements, dispatch } = this.props
 
+		let defaultStyles = {
+			borderStyle: 'solid',
+			borderWidth: 4,
+			borderColor: '#000000',
+			width: 600,
+			height: 800,
+			backgroundColor: isOver && isOverCurrent ? 'green' : 'white'
+		}
+
+
 
 		return connectDropTarget(
-			<div style={styles}>
+			<div style={defaultStyles}>
 				{canvasElements.map(element => {
 						let accepts = []
 
