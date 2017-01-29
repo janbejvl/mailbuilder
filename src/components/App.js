@@ -17,7 +17,7 @@ class App extends Component {
 
     return (
       <div className="row">
-        <h1>Hello</h1>
+        <h1>Mail Builder</h1>
         <div className="col-sm-4">
           <VisibleElementList />
         </div>
