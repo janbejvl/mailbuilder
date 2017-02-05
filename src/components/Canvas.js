@@ -47,7 +47,6 @@ export default class Canvas extends Component {
 	}
 
 	render() {
-		console.log('...RE-RENDERING CANVAS...')
 		// These props are injected by React DnD,
 		// as defined by your `collect` function above:
 		const { canDrop, isOver, isOverCurrent, connectDropTarget } = this.props
