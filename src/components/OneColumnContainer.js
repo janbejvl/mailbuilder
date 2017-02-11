@@ -89,8 +89,8 @@ export default class OneColumnContainer extends Component {
 
 		let innerContainerStyles = {
 			flex: (appCtx === 'CANVAS') ? 1 : 0,
-			lineHeight: (appCtx === 'CANVAS') ? '184px' : 'inherit',
-			minHeight: (appCtx === 'CANVAS') ? 184 : 0,
+			lineHeight: (appCtx === 'CANVAS') ? '64px' : 'inherit',
+			minHeight: (appCtx === 'CANVAS') ? 64 : 0,
 			borderStyle: (appCtx === 'CANVAS') ? 'dashed' : 'solid',
 			borderWidth: (appCtx === 'CANVAS') ? 2 : 0,
 			color: (appCtx === 'CANVAS') ? 'lightgray' : 'black',
@@ -102,6 +102,9 @@ export default class OneColumnContainer extends Component {
 
 		let content
 		let elements = []
+		let dropArea
+		const dropContent = <div style={{ textAlign: 'center', fontSize: 24 }}>Drop here</div>
+
 
 		if (appCtx === 'CANVAS') {
 
@@ -115,9 +118,10 @@ export default class OneColumnContainer extends Component {
 				})
 
 				content = elements
+				dropArea = dropContent
 			}
 			else {
-				content = <div style={{ textAlign: 'center', fontSize: 24 }}>Drop here</div>
+				dropArea = dropContent
 			}
 		}
 		else {
@@ -127,8 +131,9 @@ export default class OneColumnContainer extends Component {
 
 		return connectDragSource(connectDropTarget(
 			<div onClick={onClick} style={styles}>
+				{content}
 				<div style={{...innerContainerStyles, borderColor, backgroundColor}}>
-					{content}
+					{dropArea}
 				</div>
 		  </div>
 		))

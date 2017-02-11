@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import layoutElements from './layoutElements'
 import { ItemTypes } from './../components/Constants'
 import { ElementTypes } from './../components/Constants'
 import { ContentTypes } from './../components/Constants'
@@ -48,56 +49,58 @@ function elements(state = elementList, action) {
 	}
 }
 
-function canvasElement(state, action) {
+function contentElement(state, action) {
 	switch (action.type) {
-		case 'ADD_COLUMN':
-			return {
-				id: action.id,
-				name: action.name,
-				elementType: action.elementType,
-				contentType: action.contentType,
-				styles: action.styles,
-				accepts: action.accepts,
-				appCtx: action.appCtx,
-				childElements: []
-			}
 		case 'ADD_CONTENT':
-			if (state.id !== action.targetEl.id) return state
-			action.sourceEl.appCtx = action.targetEl.appCtx
 			return {
-				...state,
-				childElements: [
-					...state.childElements,
-					action.sourceEl
-				]
+				id: action.sourceEl.id,
+				name: action.sourceEl.name,
+				elementType: action.sourceEl.elementType,
+				contentType: action.sourceEl.contentType,
+				styles: action.sourceEl.styles,
+				appCtx: action.sourceEl.appCtx
 			}
 		default:
 			return state
 	}
 }
 
-
-function canvasElements(state = [], action) {
+const byId = (state = {}, action) => {
 	switch(action.type) {
-		case 'ADD_COLUMN':
-			return [
-				...state,
-				canvasElement(state, action)
-			]
 		case 'ADD_CONTENT':
-			return state.map(c =>
-				canvasElement(c, action)
-			)
+			return {
+				...state,
+				[action.sourceEl.id]: contentElement(state[action.sourceEl.id], action)
+			}
 		default:
 			return state
 	}
 	return state;
 }
 
+const allIds = (state = [], action) => {
+	switch(action.type) {
+		case 'ADD_CONTENT':
+			return [
+				...state,
+				action.sourceEl.id
+			]
+		default:
+			return state
+	}
+}
+
+const contentElements = combineReducers({
+	byId,
+	allIds
+})
+
+
 
 const emailApp = combineReducers({
 	elements,
-	canvasElements
+	layoutElements,
+	contentElements
 })
 
 export default emailApp

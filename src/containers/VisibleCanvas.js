@@ -3,7 +3,8 @@ import Canvas from './../components/Canvas'
 
 const mapStateToProps = (state) => {
   return {
-    canvasElements: state.canvasElements
+    layoutElements: state.layoutElements,
+    contentElements: state.contentElements
   }
 }
 

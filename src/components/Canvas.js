@@ -34,14 +34,26 @@ const canvasTarget = {
 export default class Canvas extends Component { 
 
 	static propTypes = {
-		canvasElements: PropTypes.arrayOf(PropTypes.shape({
-			elementType: PropTypes.string.isRequired,
-			contentType: PropTypes.string.isRequired,
-			name: PropTypes.string.isRequired,
-			styles: PropTypes.object.isRequired,
-			accepts: PropTypes.array.isRequired,
-			childElements: PropTypes.array.isRequired,
-		}).isRequired).isRequired,
+		layoutElements: PropTypes.shape({
+			byId: PropTypes.objectOf(PropTypes.shape({
+				elementType: PropTypes.string.isRequired,
+				contentType: PropTypes.string.isRequired,
+				name: PropTypes.string.isRequired,
+				styles: PropTypes.object.isRequired,
+				accepts: PropTypes.array.isRequired,
+				childElements: PropTypes.array.isRequired
+			}).isRequired).isRequired,
+			allIds: PropTypes.array.isRequired
+		}).isRequired,
+		contentElements: PropTypes.shape({
+			byId: PropTypes.objectOf(PropTypes.shape({
+				elementType: PropTypes.string.isRequired,
+				contentType: PropTypes.string.isRequired,
+				name: PropTypes.string.isRequired,
+				styles: PropTypes.object.isRequired
+			}).isRequired).isRequired,
+			allIds: PropTypes.array.isRequired
+		}).isRequired,
 		accepts: PropTypes.array.isRequired
 		// onElementClick: PropTypes.func.isRequired
 	}
@@ -50,7 +62,7 @@ export default class Canvas extends Component {
 		// These props are injected by React DnD,
 		// as defined by your `collect` function above:
 		const { canDrop, isOver, isOverCurrent, connectDropTarget } = this.props
-		const { canvasElements, dispatch } = this.props
+		const { layoutElements, contentElements, dispatch } = this.props
 
 		let defaultStyles = {
 			borderStyle: 'solid',
@@ -61,23 +73,32 @@ export default class Canvas extends Component {
 			backgroundColor: isOver && isOverCurrent ? 'green' : 'white'
 		}
 
+		let le = []
 
+		if (Object.keys(layoutElements.byId) > 0) {
+
+			Object.keys(layoutElements.byId).forEach(key => {
+				let o = layoutElements.byId[key]
+				le.push(o)
+			});
+
+		}
 
 		return connectDropTarget(
 			<div style={defaultStyles}>
-				{canvasElements.map(element => {
-						let accepts = []
+				{le.map(element => {
+					let accepts = []
 
-			      switch (element.elementType) {
-			        case 'OneColumnContainer':
-								accepts = [ ElementTypes.TEXT ]
-								console.log('rendering element...', element)
-			          return (<OneColumnContainer key={element.id} {...element} accepts={accepts} dispatch={dispatch} />)
-	          	
-			        default:
-			      }
-			      
-			    })}
+					switch (element.elementType) {
+						case 'OneColumnContainer':
+							accepts = [ ElementTypes.TEXT ]
+							console.log('rendering element...', element)
+							return (<OneColumnContainer key={element.id} {...element} accepts={accepts} dispatch={dispatch} />)
+
+						default:
+					}
+
+				})}
 			</div>
 					
 			
