@@ -29,7 +29,7 @@ function layoutElement(state, action) {
 }
 
 
-const byId = (state = {}, action) => {
+const entities = (state = {}, action) => {
 	switch(action.type) {
 		case 'ADD_COLUMN':
 			return {
@@ -48,7 +48,7 @@ const byId = (state = {}, action) => {
 	return state;
 }
 
-const allIds = (state = [], action) => {
+const result = (state = [], action) => {
 	switch(action.type) {
 		case 'ADD_COLUMN':
 			return [
@@ -61,8 +61,8 @@ const allIds = (state = [], action) => {
 }
 
 const layoutElements = combineReducers({
-	byId,
-	allIds
+	entities,
+	result
 })
 
 export default layoutElements
