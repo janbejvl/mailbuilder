@@ -1,7 +1,10 @@
 import { connect } from 'react-redux'
 import Canvas from './../components/Canvas'
 
+
+
 const mapStateToProps = (state) => {
+
   return {
     layoutElements: state.layoutElements,
     contentElements: state.contentElements

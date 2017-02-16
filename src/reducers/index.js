@@ -65,7 +65,7 @@ function contentElement(state, action) {
 	}
 }
 
-const byId = (state = {}, action) => {
+const entities = (state = {}, action) => {
 	switch(action.type) {
 		case 'ADD_CONTENT':
 			return {
@@ -78,7 +78,7 @@ const byId = (state = {}, action) => {
 	return state;
 }
 
-const allIds = (state = [], action) => {
+const result = (state = [], action) => {
 	switch(action.type) {
 		case 'ADD_CONTENT':
 			return [
@@ -91,8 +91,8 @@ const allIds = (state = [], action) => {
 }
 
 const contentElements = combineReducers({
-	byId,
-	allIds
+	entities,
+	result
 })
 
 

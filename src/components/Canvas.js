@@ -8,6 +8,7 @@ import CanvasElement from './CanvasElement'
 import { addElementToCanvas } from './../actions'
 import OneColumnContainer from './OneColumnContainer'
 import Text from './Text'
+import { denormalize, schema } from 'normalizr';
 
 
 const canvasTarget = {
@@ -35,7 +36,7 @@ export default class Canvas extends Component {
 
 	static propTypes = {
 		layoutElements: PropTypes.shape({
-			byId: PropTypes.objectOf(PropTypes.shape({
+			entities: PropTypes.objectOf(PropTypes.shape({
 				elementType: PropTypes.string.isRequired,
 				contentType: PropTypes.string.isRequired,
 				name: PropTypes.string.isRequired,
@@ -43,16 +44,16 @@ export default class Canvas extends Component {
 				accepts: PropTypes.array.isRequired,
 				childElements: PropTypes.array.isRequired
 			}).isRequired).isRequired,
-			allIds: PropTypes.array.isRequired
+			result: PropTypes.array.isRequired
 		}).isRequired,
 		contentElements: PropTypes.shape({
-			byId: PropTypes.objectOf(PropTypes.shape({
+			entities: PropTypes.objectOf(PropTypes.shape({
 				elementType: PropTypes.string.isRequired,
 				contentType: PropTypes.string.isRequired,
 				name: PropTypes.string.isRequired,
 				styles: PropTypes.object.isRequired
 			}).isRequired).isRequired,
-			allIds: PropTypes.array.isRequired
+			result: PropTypes.array.isRequired
 		}).isRequired,
 		accepts: PropTypes.array.isRequired
 		// onElementClick: PropTypes.func.isRequired
@@ -75,14 +76,52 @@ export default class Canvas extends Component {
 
 		let le = []
 
-		if (Object.keys(layoutElements.byId) > 0) {
+		// const user = new schema.Entity('users');
+		// const mySchema = { users: [ user ] }
+		// const entities = { users: { '1': { id: 1 }, '2': { id: 2 } } };
+		// const denormalizedData2 = denormalize({ users: [ 1, 2 ] }, mySchema, entities);
+		// console.log('mySchema schema: ', mySchema)
+		// console.log('entities: ', entities)
+		// console.log('den data normalizr: ', denormalizedData2)
 
-			Object.keys(layoutElements.byId).forEach(key => {
-				let o = layoutElements.byId[key]
+		
+		
+		// Object.keys(layoutElements.entities).forEach(id => {
+			
+		// 	if (layoutElements.entities[id].childElements.length > 0) {
+		// 		childElements = layoutElements.entities[id].childElements.map(childId => {
+		// 			return contentElements.entities[childId]
+		// 		})
+		// 	}
+		// 	console.log('child elements: ', childElements)
+		// })
+
+
+		if (Object.keys(layoutElements.entities) > 0) {
+			// let contentElements2 = new schema.Entity('contentElements2');
+			// let layoutElements2 = {	entities: [contentElements2] }
+			// let entities = contentElements.entities
+			// let denormalizedData = denormalize(o.childElements, layoutElements2, entities)
+			// console.log('layout schema: ', layoutElements2)
+			// 	console.log('entities2: ', entities)
+			// 	console.log('denormalized data: ', denormalizedData)
+			Object.keys(layoutElements.entities).forEach(id => {
+				let o = layoutElements.entities[id]
+				let childElements = []
+				if (layoutElements.entities[id].childElements.length > 0) {
+					childElements = layoutElements.entities[id].childElements.map(childId => {
+						return contentElements.entities[childId]
+					})
+				}
+				
+				// o['childElements'] = childElements
+				console.log('object: ', o)
 				le.push(o)
-			});
+			})
 
 		}
+
+		
 
 		return connectDropTarget(
 			<div style={defaultStyles}>
