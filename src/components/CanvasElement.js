@@ -20,17 +20,17 @@ const canvasElementSource = {
 }
 
 const canvasElementTarget = {
-    drop(props, monitor) {
-        // Obtain the dragged item
-        const item = monitor.getItem();
-        const isOver = monitor.isOver();
-        const isOverCurrent = monitor.isOver({ shallow: true });
-        // console.log('add this item to Canvas', item);
-        if(isOverCurrent) {
-            console.log('item', item);      
-            props.dispatch(addElementToColumn(item))
-        }
+  drop(props, monitor) {
+    // Obtain the dragged item
+    const item = monitor.getItem();
+    const isOver = monitor.isOver();
+    const isOverCurrent = monitor.isOver({ shallow: true });
+    // console.log('add this item to Canvas', item);
+    if(isOverCurrent) {
+      console.log('item', item);      
+      props.dispatch(addElementToColumn(item))
     }
+  }
 }
 
 @DragSource(ItemTypes.CANVAS_ELEMENT, canvasElementSource, (connect, monitor) => ({

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import layoutElements from './layoutElements'
+import layoutElements, * as fromLayoutElements  from './layoutElements'
 import { ItemTypes } from './../components/Constants'
 import { ElementTypes } from './../components/Constants'
 import { ContentTypes } from './../components/Constants'
@@ -55,6 +55,7 @@ function contentElement(state, action) {
 			return {
 				id: action.sourceEl.id,
 				name: action.sourceEl.name,
+				value: action.sourceEl.value ? action.sourceEl.value : "",
 				elementType: action.sourceEl.elementType,
 				contentType: action.sourceEl.contentType,
 				styles: action.sourceEl.styles,
@@ -75,7 +76,6 @@ const entities = (state = {}, action) => {
 		default:
 			return state
 	}
-	return state;
 }
 
 const result = (state = [], action) => {
@@ -89,6 +89,20 @@ const result = (state = [], action) => {
 			return state
 	}
 }
+
+const getAddedIds = state => {
+	console.log('state: ', state)
+	fromLayoutElements.getAddedIds(state.contentElements)
+}
+const getSingleElementById = (state, id) => fromLayoutElements.getSingleElementById(state.contentElements, id)
+
+export const getChildElements = (state = {}) => {
+	return getAddedIds(state.childElements).map(id => ({
+		...getSingleElementById(state, id)
+	}))
+}
+
+
 
 const contentElements = combineReducers({
 	entities,
