@@ -1,6 +1,9 @@
 .idea/**/*
+.vscode/**/*
 npm-debug.log
 node_modules
 *.iml
 dist
+tsconfig.json
 src/TODO LIST.txt
+src/TODO list.txt
